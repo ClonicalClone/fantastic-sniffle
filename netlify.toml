@@ -1,0 +1,25 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Enable Next.js on Netlify
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Environment variables (set these in Netlify dashboard too)
+[build.environment]
+  NODE_VERSION = "18"
+
+# Headers for better security
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

@@ -1,0 +1,86 @@
+@import "tailwindcss";
+body{
+  background: black;
+  color: white;
+
+}
+
+.mainer{
+ border-left: 1px solid white;
+border-right: 1px solid white;
+  box-shadow: inset 69px -69px 1004px -250px rgb(255, 255, 255),
+  inset -69px -69px 1004px -290px rgb(255, 255, 255),
+  inset 69px 69px 1004px -300px rgb(255, 255, 255);
+  overflow: hidden;
+  
+}
+.bx1{
+  box-shadow: 0px 0px 100px -50px white ;
+  transition: 1.7s all;
+  cursor: pointer;
+}
+.bx1:hover{
+  box-shadow: 0px 0px 100px 20px white, inset 0px 0px 100px -50px white, 20px 20px 20px -10px white, -20px -20px 20px -10px white ;
+  scale: 1.05;
+}
+.navbar{
+  box-shadow: 0px 0px 80px -35px white;
+  animation: blinker 5.5s infinite ease-in;
+}
+@keyframes blinker {
+  0%{
+    box-shadow: 0px 0px 70px -35px white;}
+  50%{
+    box-shadow: 0px 0px 90px -35px white;}
+  100%{
+    box-shadow: 0px 0px 70px -35px white;
+  }
+}
+/* Works in Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  /* Background of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ffffff, #dbdbdb);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, white, #dbdbdb);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff #0a0a0a;
+}
+nav a {
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+nav a:hover {
+  text-shadow: 0px 0px 8px white;
+}
+nav a.active {
+  border-bottom: 2px solid white;
+}
