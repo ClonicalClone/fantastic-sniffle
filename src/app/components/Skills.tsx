@@ -4,7 +4,13 @@ import React, { useEffect } from 'react';
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Ctr = ({ params }) => {
+type CtrProps = {
+  params: {
+    name: string;
+  };
+};
+
+const Ctr = ({ params }: CtrProps) => {
   return (
     <div
       className='pl-7 pr-7 pt-3 pb-3 bg-black rounded-2xl border-zinc-900 

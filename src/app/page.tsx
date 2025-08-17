@@ -45,15 +45,15 @@ export default function Home() {
     gsap.ticker.add(update);
 
     // Mouse move
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
     window.addEventListener("mousemove", handleMouseMove);
 
     // Hover effect with **smooth GSAP animation**
-    const handleHover = (e) => {
-      const target = e.target.closest("a, button,[data-cursor-hover]");
+    const handleHover = (e: MouseEvent) => {
+      const target = (e.target as Element)?.closest("a, button,[data-cursor-hover]");
       if (target) {
         gsap.to(cursor2, { scale: 1.75, duration: 0.2, ease: "power2.out" });
       } else {
@@ -66,12 +66,10 @@ export default function Home() {
     const lenis = new Lenis({
       duration: 1.5,
       easing: t => 1 - Math.pow(1 - t, 4),
-      smooth: true,
-      smoothTouch: true,
       touchMultiplier: 1.5,
     });
 
-    const raf = (time) => {
+    const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
     };

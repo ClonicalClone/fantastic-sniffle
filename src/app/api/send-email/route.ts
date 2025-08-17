@@ -46,7 +46,6 @@ export async function OPTIONS() {
 export async function POST(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for') ||
         request.headers.get('x-real-ip') ||
-        request.ip ||
         'unknown';
 
     console.log('Received request from IP:', ip);
@@ -54,8 +53,11 @@ export async function POST(request: NextRequest) {
     // ✅ Rate limiting
     try {
         await rateLimiter.consume(ip);
-    } catch (rateLimiterRes: any) {
-        const retrySecs = Math.ceil(rateLimiterRes.msBeforeNext / 1000);
+    } catch (rateLimiterRes: unknown) {
+        const msBeforeNext = typeof rateLimiterRes === 'object' && rateLimiterRes !== null && 'msBeforeNext' in rateLimiterRes
+            ? (rateLimiterRes as { msBeforeNext: number }).msBeforeNext
+            : 0;
+        const retrySecs = Math.ceil(msBeforeNext / 1000);
         return NextResponse.json({
             error: `Rate limit exceeded. Try again in ${Math.ceil(retrySecs / 60)} minute(s).`
         }, {
@@ -105,7 +107,7 @@ export async function POST(request: NextRequest) {
 
     // ✅ Verify reCAPTCHA
     if (secretKey) {
-        let verifyData: any;
+        let verifyData: { success: boolean; [key: string]: unknown };
         try {
             console.log('Verifying reCAPTCHA...');
             const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
@@ -177,12 +179,12 @@ export async function POST(request: NextRequest) {
                 headers: corsHeaders
             }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Email sending error:', error);
         return NextResponse.json(
             {
                 error: "Failed to send email",
-                details: error.message
+                details: error instanceof Error ? error.message : String(error)
             },
             {
                 status: 500,

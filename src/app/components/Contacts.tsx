@@ -9,7 +9,7 @@ import { SiGmail } from "react-icons/si";
 import { TbBrandFiverr } from "react-icons/tb";
 import ReCAPTCHA from 'react-google-recaptcha';
 
-const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 const Contacts = () => {
   useEffect(() => {
@@ -20,13 +20,17 @@ const Contacts = () => {
     });
   }, []);
 
-  const invisibleRef = useRef(null);
+  const invisibleRef = useRef<ReCAPTCHA | null>(null);
   const [loading, setLoading] = useState(false);
 
   const SendMessage = async () => {
-    const name = document.querySelector('input[placeholder="Name"]').value;
-    const email = document.querySelector('input[placeholder="Email"]').value;
-    const message = document.querySelector('textarea[placeholder="Message"]').value;
+    const nameInput = document.querySelector('input[placeholder="Name"]') as HTMLInputElement | null;
+    const emailInput = document.querySelector('input[placeholder="Email"]') as HTMLInputElement | null;
+    const messageTextarea = document.querySelector('textarea[placeholder="Message"]') as HTMLTextAreaElement | null;
+
+    const name = nameInput?.value || "";
+    const email = emailInput?.value || "";
+    const message = messageTextarea?.value || "";
 
     if (!name || !email || !message) {
       alert("Please fill in all fields");
@@ -90,13 +94,16 @@ const Contacts = () => {
       alert("✅ Message sent successfully!");
 
       // Clear the form
-      document.querySelector('input[placeholder="Name"]').value = "";
-      document.querySelector('input[placeholder="Email"]').value = "";
-      document.querySelector('textarea[placeholder="Message"]').value = "";
+      const nameField = document.querySelector('input[placeholder="Name"]') as HTMLInputElement | null;
+      if (nameField) nameField.value = "";
+      const emailField = document.querySelector('input[placeholder="Email"]') as HTMLInputElement | null;
+      if (emailField) emailField.value = "";
+      const messageField = document.querySelector('textarea[placeholder="Message"]') as HTMLTextAreaElement | null;
+      if (messageField) messageField.value = "";
 
     } catch (error) {
       console.error("Client error:", error);
-      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      if (error instanceof Error && error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
         alert("❌ Network error. Please check your connection and try again.");
       } else {
         alert("❌ Something went wrong. Please try again later.");
@@ -115,7 +122,7 @@ const Contacts = () => {
         </div>
 
         <section id="contact" className="min-h-screen flex flex-col justify-center w-full items-center ">
-          <h2 className="text-4xl mb-8 font-bold" data-aos="zoom-in">Let's Build Something Great</h2>
+          <h2 className="text-4xl mb-8 font-bold" data-aos="zoom-in">Let&apos;s Build Something Great</h2>
           <p className="text-zinc-400 mb-12" data-aos="fade-up">Have a project in mind or just want to chat?</p>
 
           <div className="flex flex-col lg:flex-row justify-center md:gap-30 w-full items-center pt-20">

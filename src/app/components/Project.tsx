@@ -14,7 +14,7 @@ const Project = () => {
     });
 
     // (Optional) beforeunload confirmation — remove if not needed
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = (event: { preventDefault: () => void; returnValue: string; }) => {
       event.preventDefault();
       event.returnValue = ''; 
     };

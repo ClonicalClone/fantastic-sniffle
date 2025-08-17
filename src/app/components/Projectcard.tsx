@@ -1,7 +1,13 @@
 import React from 'react'
 import Image from 'next/image';
 
-const Projectcard = (params) => {
+interface ProjectcardProps {
+  srcimg: string;
+  title: string;
+  desc: string;
+}
+
+const Projectcard = (params: ProjectcardProps) => {
   return (
    
       <div className="card  flex gap-12 flex-col md:flex-row width-screen  justify-center items-center text-center md:text-left md:justify-start overflow-hidden">
