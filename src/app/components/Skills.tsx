@@ -53,7 +53,7 @@ const Skills = () => {
         Why Choose Me?
       </h2>
 
-      <p className='text-lg leading-relaxed text-center md:pl-30 md:pr-30 
+      <div className='text-lg leading-relaxed text-center md:pl-30 md:pr-30 
                     shadow-white md:p-20 pt-20 pb-20 p-7 rounded-4xl 
                     shadow-[0px_0px_50px_-35px_white]'>
         <h1 className='text-zinc-500 hover:text-white !transition-all duration-700 cursor-pointer p-3 leading-loose' data-aos="fade-up">
@@ -63,7 +63,7 @@ const Skills = () => {
         <h1 className='text-zinc-500 hover:text-white !transition-all duration-700 cursor-pointer p-3 leading-loose' data-aos="fade-up" data-aos-delay="200">
           My promise: top-tier quality at the most affordable price, with unlimited revisions...
         </h1>
-      </p>
+      </div>
 
       <p className='md:p-20 pt-20 pb-20 p-7 md:pl-30 md:pr-30 text-xl rounded-4xl leading-9 
                     shadow-[0px_15px_50px_-35px_white] shadow-white text-zinc-500 
