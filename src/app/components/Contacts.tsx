@@ -232,6 +232,7 @@ const Contacts = () => {
                   onClick={SendMessage} 
                   disabled={loading}
                   type="button"
+                  aria-label="Send message"
                 >
                   {loading ? "Sending..." : "Send Message"}
                 </button>
