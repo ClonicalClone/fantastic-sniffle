@@ -10,5 +10,11 @@ module.exports = {
     "/500",
     "/api/*",
     "/"
-  ]
+  ],
+   additionalPaths: async (config) => [
+    await config.transform(config, "/"),
+    await config.transform(config, "/#About"),
+    await config.transform(config, "/#Projects"),
+    await config.transform(config, "/#Contact"),
+  ],
 }
