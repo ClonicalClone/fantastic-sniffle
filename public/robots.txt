@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://clonicalclone.vercel.app
+
+# Sitemaps
+Sitemap: https://clonicalclone.vercel.app/sitemap.xml
