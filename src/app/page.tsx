@@ -13,6 +13,8 @@ import Contacts from "../app/components/Contacts";
 import Cursor from "../app/components/Cursor";
 import Cursor2 from "../app/components/Cursor2";
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 export default function Home() {
   const cursor2Ref = useRef(null);
