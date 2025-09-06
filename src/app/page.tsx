@@ -31,6 +31,7 @@ export default function Home() {
 
     const speed1 = 0.2; // cursor1 speed
     const speed2 = 0.28; // cursor2 speed
+    
 
     // ticker only updates position
     const update = () => {

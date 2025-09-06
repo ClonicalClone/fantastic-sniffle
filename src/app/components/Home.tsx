@@ -1,10 +1,13 @@
-"use client";
+import { MdOutlineDocumentScanner } from "react-icons/md"; 
+
+
+
 
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import { BsGithub, BsDiscord, BsWikipedia, BsYoutube } from "react-icons/bs";
+import { BsGithub, BsDiscord,  BsLinkedin } from "react-icons/bs";
 import Typewriter from "typewriter-effect";
 import Image from "next/image";
 import "../globals.css";
@@ -94,30 +97,7 @@ const Home = () => {
               data-aos-delay="300"
               aria-label="Social media links"
             >
-              <a
-                href="https://www.youtube.com/@ClonicalClone"
-                title="YouTube"
-                aria-label="Visit my YouTube channel"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <BsYoutube
-                  className="hover:text-gray-300 !transition !duration-300 hover:scale-115"
-                  aria-hidden="true"
-                />
-              </a>
-              <a
-                href="https://en.wikipedia.org/wiki/User:ClonicalClone"
-                title="Wikipedia"
-                aria-label="My Wikipedia profile"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <BsWikipedia
-                  className="hover:text-gray-300 !transition !duration-300 hover:scale-115"
-                  aria-hidden="true"
-                />
-              </a>
+            
               <a
                 href="https://discord.gg/FvBZfqy6Vg"
                 title="Discord"
@@ -139,6 +119,32 @@ const Home = () => {
               >
                 <BsGithub
                   className="hover:text-gray-300 !transition !duration-300 hover:scale-115"
+                  aria-hidden="true"
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/jatin-singh-990703355/"
+                title="LinkedIn"
+                aria-label="Visit my LinkedIn profile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsLinkedin
+                  className="hover:text-gray-300 !transition !duration-300 hover:scale-115"
+                  aria-hidden="true"
+                />
+              </a>
+              
+              <a
+                href="/Resume.pdf"
+                title="Resume"
+                aria-label="Checkout my Resume"
+                target="_blank"
+                rel="noopener noreferrer"
+                download={true}
+              >
+                <MdOutlineDocumentScanner 
+                  className="hover:text-gray-300 !transition !duration-300 hover:scale-115 "
                   aria-hidden="true"
                 />
               </a>
