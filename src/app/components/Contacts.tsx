@@ -7,7 +7,8 @@ import 'aos/dist/aos.css';
 import { BsLinkedin, BsDiscord, BsGithub } from 'react-icons/bs';
 import { SiGmail } from 'react-icons/si';
 
-import ReCAPTCHA from "react-google-recaptcha";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
 
 // TypeScript support for ALTCHA custom element
 
@@ -26,10 +27,12 @@ const Contacts = () => {
     name: '',
     email: '',
     message: '',
+    token: '',
   });
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
 
+  // handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -37,70 +40,52 @@ const Contacts = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // on hCaptcha verify
+  const handleCaptchaVerify = (token: string) => {
+    setFormData((prev) => ({ ...prev, token })); // ✅ save token
+  };
+
+  // send message
   const SendMessage = async () => {
-    const { name, email, message } = formData;
+    const { name, email, message, token } = formData;
 
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
-      alert('Please fill in all fields');
+      alert("Please fill in all fields");
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      alert('Please enter a valid email address');
-      return;
-    }
-
-    const token = recaptchaRef.current?.getValue();
     if (!token) {
-      alert('Please complete the CAPTCHA challenge.');
+      alert("Please complete the CAPTCHA challenge.");
       return;
     }
 
     setLoading(true);
-    console.log('🚀 Starting message send process...');
-
     try {
-      const fetchPromise = fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          message: message.trim(),
-          token, // send recaptcha token
-        }),
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message, token }),
       });
 
-      const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Request timeout')), 30000)
-      );
-
-      const res = await Promise.race([fetchPromise, timeoutPromise]) as Response;
+      const result = await res.json();
 
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        const errorMessage = errorData?.error || 'Something went wrong';
-        alert(`❌ ${errorMessage}`);
+        alert(`❌ ${result.error || "Something went wrong"}`);
         return;
       }
 
-      const result = await res.json();
-      console.log('✅ Success:', result);
-      alert('✅ Message sent successfully!');
-
-      // Reset form and reCAPTCHA
-      setFormData({ name: '', email: '', message: '' });
-      recaptchaRef.current?.reset();
+      alert("✅ Message sent successfully!");
+      setFormData({ name: "", email: "", message: "", token: "" });
     } catch (error) {
-      console.error('❌ Error:', error);
-      alert('❌ Something went wrong. Please try again later.');
+      console.error(error);
+      alert("❌ Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
+
+  
+
 
   return (
     <div id="Contact" className="md:pl-30 md:pt-50 pt-20 w-full h-400 justify-center text-center md:text-left">
@@ -153,13 +138,12 @@ const Contacts = () => {
                 data-aos-delay="200"
               ></textarea>
 
-              <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                ref={recaptchaRef}
-                className='w-100'
-                theme='dark'
-                hl="en"
+              <HCaptcha
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                onVerify={handleCaptchaVerify}
+                theme="dark"
               />
+
 
               <button
                 className="bg-black text-white rounded-4xl px-2 py-4 text-xl border-1 border-white hover:scale-105 transition-all duration-600 hover:shadow-[0px_0px_100px_-20px_white,inset_0px_0px_140px_white,0px_0px_50px_-10px_white] hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
