@@ -10,8 +10,6 @@ import { SiGmail } from 'react-icons/si';
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 
-// TypeScript support for ALTCHA custom element
-
 
 const Contacts = () => {
   useEffect(() => {

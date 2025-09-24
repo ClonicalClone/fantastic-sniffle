@@ -93,16 +93,21 @@ export async function POST(req: NextRequest) {
       { success: true, message: "Email sent successfully" },
       { status: 200, headers: corsHeaders }
     );
-  } catch (err: any) {
-    if (err instanceof Error && err.message.includes("RateLimiter")) {
-      return NextResponse.json(
-        { error: "Rate limit exceeded" },
-        { status: 429, headers: corsHeaders }
-      );
-    }
+  }  catch (err: unknown) {
+  if (err instanceof Error && err.message.includes("RateLimiter")) {
     return NextResponse.json(
-      { error: err.message || "Internal server error" },
-      { status: 500, headers: corsHeaders }
+      { error: "Rate limit exceeded" },
+      { status: 429, headers: corsHeaders }
     );
   }
+
+  const message =
+    err instanceof Error ? err.message : "Internal server error";
+
+  return NextResponse.json(
+    { error: message },
+    { status: 500, headers: corsHeaders }
+  );
+}
+
 }
